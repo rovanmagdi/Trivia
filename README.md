@@ -17,7 +17,7 @@ My project is about an Trivia system which targets students their knowledge by a
 
 ## Build with 
 
-- Node.Js
+
 - React.js
 - Type script
 - Materail ui
