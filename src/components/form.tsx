@@ -45,7 +45,7 @@ const UserNameForm = () => {
     if (userName && num) {
       localStorage.setItem("userName", formik.values.userName);
       localStorage.setItem("num", formik.values.num);
-      // localStorage.setItem("statusProgress", "Progress");
+      localStorage.setItem("statusProgress", "Progress");
       nagivate("/exam");
     }
     console.log("donr");

@@ -2,7 +2,7 @@ import { ToastContainer } from "react-toastify";
 import { lazy, Suspense } from "react";
 import Loader from "../components/loader";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import { ProtectProgress, ProtectResult } from "../guards/route";
+import { ProtectProgress, ProtectResult } from "../guards/route";
 import { Box } from "@mui/material";
 import backgroundImgae from "../assets/background.png";
 //Lazt loading better performance
@@ -34,17 +34,17 @@ function App() {
             <Route
               path="/exam"
               element={
-                // <ProtectProgress>
+                <ProtectProgress>
                   <Exam />
-              // </ProtectProgress> 
+              </ProtectProgress> 
               }
             />
             <Route
               path="/result"
               element={
-                // <ProtectResult>
+                 <ProtectResult>
                   <Result />
-                // </ProtectResult>
+                 </ProtectResult>
               }
             />
             <Route path="*" element={<NotFoundPage />} />

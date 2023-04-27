@@ -14,7 +14,7 @@ import axios from "axios";
 import ProgressComponent from "../components/progressComponent";
 
 // import soundComponet to used here
-// import ContainerSound from "../components/containerSound";
+import ContainerSound from "../components/containerSound";
 
 // import interfaces to used.
 import { questionInterface } from "../types/question";
@@ -25,16 +25,13 @@ import { toastWarning, toastError, toastSuccess } from "../errors/helper";
 //import buttons from styled MUI
 import { StyledButtonNext, StyledButtonCheck } from "../styled/Button";
 
-interface Person {
-  key: number; // 👈️ should be string
-}
+import { memo } from 'react'
+
 const TriviaPage = () => {
   // setting  state
   const [name, setName] = useState("");
   const [questions, setQuestions] = useState<questionInterface[]>([]);
   const [score, setScore] = useState(0);
-
-  const [answers, setAnswers] = useState<questionInterface[]>([]);
 
   const [counter, setCounter] = useState(0);
   const [percent, setPercent] = useState(0);
@@ -42,15 +39,14 @@ const TriviaPage = () => {
   const [bgColor, setBgColor] = useState(true);
   const [checkAnswer, setIscheckAnswer] = useState(false);
   const [sound, setSound] = useState(false);
+
   const navigate = useNavigate();
-  const numberOfQuestion =
+  const numberOfQuestion:number =
     Number(localStorage.getItem("num")) !== null
       ? Number(localStorage.getItem("num"))
       : 1;
 
   // answers buttons
-
-  // console.log(numberOfQuestion);
 
   // fetching Questions from the server
   useEffect(() => {
@@ -58,11 +54,6 @@ const TriviaPage = () => {
       .get(`https://opentdb.com/api.php?amount=${numberOfQuestion}`)
       .then((response) => {
         setQuestions(response.data.results);
-        console.log(response.data.results);
-
-        response.data.results.map((a: any) =>
-          a.incorrect_answers.map((x: any) => console.log(x))
-        );
       })
 
       .catch((err) => {
@@ -72,10 +63,12 @@ const TriviaPage = () => {
 
   const handleAnswer = (answer: string) => {
     setAnswer(answer);
+    setBgColor(true)
   };
   useEffect(() => {
     const name = localStorage.getItem("userName") || "";
     setName(name);
+    setBgColor(true)
   }, [counter]);
 
   const CheckAnswerHandler = () => {
@@ -84,38 +77,40 @@ const TriviaPage = () => {
       return;
     }
 
-    if (answer === "" && counter !== 10) {
+    if (answer === "" && counter !== numberOfQuestion) {
       toastWarning("You must choose  answer");
     }
 
-    // if (answer === questions[counter].pos) {
-    //   setScore((prevQuestion) => (prevQuestion += numberOfQuestion));
-    //   toastSuccess("Answer right ");
-    //   setBgColor(false);
-    //   setIscheckAnswer(true);
-    // }
+    if (answer === questions[counter].correct_answer) {
+      setScore((prevQuestion) => (prevQuestion += 1));
+      toastSuccess("Answer right ");
+     
+      setIscheckAnswer(true);
+    }
 
-    // if (answer !== questions[counter].pos && answer !== "") {
-    //   setBgColor(false);
-    //   setIscheckAnswer(true);
-    //   toastError("Answer wrong ");
-    // }
+    if (answer !== questions[counter].correct_answer && answer !== "") {
+     
+      setIscheckAnswer(true);
+      toastError("Answer wrong ");
+    }
   };
   const handleNext = () => {
-    if (counter === 9) {
+    if (counter === numberOfQuestion) {
       setSound(true);
     }
-    // if (answer === questions[counter].pos) {
-    //   setScore((prevQuestion) => (prevQuestion += 10));
-    //   setBgColor(false);
-    //   setIscheckAnswer(true);
-    // }
+   
+    if (answer === questions[counter].correct_answer) {
+      setScore((prevQuestion) => (prevQuestion += 1));
+      
+      setIscheckAnswer(true);
+    }
 
-    // if (answer !== questions[counter].pos && answer !== "") {
-    //   setBgColor(false);
-    //   setIscheckAnswer(true);
-    // }
-    setBgColor(true);
+    if (answer !== questions[counter].correct_answer && answer !== "") {
+      
+      setIscheckAnswer(true);
+      
+    }
+
     setCounter((counter) => (counter += 1));
     setIscheckAnswer(false);
     handlePercent();
@@ -160,36 +155,30 @@ const TriviaPage = () => {
           </Typography>
         )}
 
-        {/* <ContainerSound sound={sound}>
-          {questions[counter] ? questions[counter].word : "Done !"}
-        </ContainerSound> */}
+        <ContainerSound sound={sound}>
+          {questions[counter] ? questions[counter].question : "Done !"}
+        </ContainerSound>
 
-        {questions[counter] ? questions[counter].question : "Done !"}
-        {/* {questions?.map((q) => {
-          return <Typography>{q.question}</Typography>;
-        })} */}
         {counter < numberOfQuestion && (
           <Grid container gap={1} justifyContent="center" alignItems="center">
-            {/* {questions[counter] ? ( */}
             <Button
               variant="contained"
               sx={{
-                //  backgroundColor:
-                //    answer === questions[counter].correct_answer  && bgColor
-                //      ? "#185f55"
-                //      : bgColor
-                //      ? "#FF7332"
-                //      : questions[counter]?.correct_answer === questions[counter].correct_answer
-                //      ? "#5C9E69"
-                //      : "#E20813",
+
+                backgroundColor:
+                  bgColor ? { backgroundColor: 'green' } : { backgroundColor: '#185f55' }
+                ,
+
                 "&:hover": {
                   backgroundColor: "#185f55",
                 },
               }}
+              onClick={() => {
+                handleAnswer(questions[counter]?.correct_answer);
+              }}
             >
               {questions[counter]?.correct_answer}
             </Button>
-            {/* ) : "Done !"} */}
 
             {/* showing  answers buttons */}
 
@@ -199,17 +188,15 @@ const TriviaPage = () => {
                   <Button
                     variant="contained"
                     sx={{
-                      // backgroundColor:
-                      //   answer === button.title && bgColor
-                      //     ? "#185f55"
-                      //     : bgColor
-                      //     ? "#FF7332"
-                      //     : questions[counter]?.pos === button.title
-                      //     ? "#5C9E69"
-                      //     : "#E20813",
+                      backgroundColor:
+                        bgColor ? { backgroundColor: 'green' } : { backgroundColor: '#185f55' }
+                      ,
                       "&:hover": {
                         backgroundColor: "#185f55",
                       },
+                    }}
+                    onClick={() => {
+                      handleAnswer(x);
                     }}
                   >
                     {x}
@@ -217,53 +204,6 @@ const TriviaPage = () => {
                 );
               })
             )}
-            {/* {questions.map((button) => {
-              return (
-                <Button
-                  variant="contained"
-                  sx={{
-                    // backgroundColor:
-                    //   answer === button.title && bgColor
-                    //     ? "#185f55"
-                    //     : bgColor
-                    //     ? "#FF7332"
-                    //     : questions[counter]?.pos === button.title
-                    //     ? "#5C9E69"
-                    //     : "#E20813",
-                    "&:hover": {
-                      backgroundColor: "#185f55",
-                    },
-                  }}
-                >
-                  {button.incorrect_answers}
-                </Button>
-                // <Grid
-                //   key={uniqueKey}
-                //   onClick={() => {
-                //     // handleAnswer(button.incorrect_answers);
-                //   }}
-                // >
-                //   <Button
-                //     variant="contained"
-                //     sx={{
-                //       // backgroundColor:
-                //       //   answer === button.title && bgColor
-                //       //     ? "#185f55"
-                //       //     : bgColor
-                //       //     ? "#FF7332"
-                //       //     : questions[counter]?.pos === button.title
-                //       //     ? "#5C9E69"
-                //       //     : "#E20813",
-                //       "&:hover": {
-                //         backgroundColor: "#185f55",
-                //       },
-                //     }}
-                //   >
-                //     {button.incorrect_answers}
-                //   </Button>
-                // </Grid>
-              );
-            })} */}
           </Grid>
         )}
 
@@ -282,7 +222,7 @@ const TriviaPage = () => {
             m: 1,
           }}
         >
-          {counter < 10 && (
+          {counter < numberOfQuestion && (
             <>
               <StyledButtonCheck onClick={CheckAnswerHandler}>
                 Check Answer
@@ -293,7 +233,7 @@ const TriviaPage = () => {
               </StyledButtonNext>
             </>
           )}
-          {counter >= 10 && (
+          {counter >= numberOfQuestion && (
             <StyledButtonCheck onClick={handleResult}>
               Show Rank
             </StyledButtonCheck>
@@ -304,4 +244,4 @@ const TriviaPage = () => {
   );
 };
 
-export default TriviaPage;
+export default memo(TriviaPage);

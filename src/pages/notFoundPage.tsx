@@ -1,9 +1,26 @@
-import React from 'react'
+import { Box } from "@mui/system";
+import { Stack } from "@mui/material";
+import NotFoundImage from "../assets/not found.svg";
 
- const NotFoundPage = () => {
+function NotFound() {
   return (
-    <div>notFoundPage</div>
-  )
+    <>
+      <Stack
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "600px",
+        }}
+      >
+        <Box
+          component="img"
+          src={NotFoundImage}
+          sx={{ width: "80%", height: "80%" }}
+        />
+      </Stack>
+    </>
+  );
 }
 
-export default NotFoundPage
+export default NotFound;
