@@ -1,5 +1,5 @@
 ## Examination system 
-Description for my project which is an examination system.
+Description for my project which is an Trivia system.
 
 ## Table of Contents
  
