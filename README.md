@@ -1,46 +1,80 @@
-# Getting Started with Create React App
+## Trivia system
+Description for my project which is an Trivia system.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
+ 
+  - About the Project
+  - Built With
+  - Getting Started
+        - Installation
+  - Usage
+  - Contact
+## About the project
 
-## Available Scripts
+My project is about an Trivia system which targets students their knowledge by answering some questions, each time you will receive different questions and you are not only receiving the questions, and sound 
+ at the end of the test you will receive your final score.
 
-In the project directory, you can run:
 
-### `npm start`
+## Build with 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- React.js
+- Type script
+- Materail ui
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+clone rep
+```bash
+ git clone https://github.com/rovanmagdi/Trivia.git
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+install npm Package
+```bash
+ npm i
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Enter this command to run the react app.
+```bash
+ npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Enter this command to run the node app.
+```bash
+ npm run start
+```
+    
+    
 
-### `npm run eject`
+## Screenshots
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Welcome Page
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![Screenshot (74)](https://user-images.githubusercontent.com/64366119/234969226-8972e1d3-961e-4995-a542-49f0ad988eaa.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Exam Page
+![Screenshot (75)](https://user-images.githubusercontent.com/64366119/234969229-da8a5f40-8b0b-46ba-a2b5-db83acb3cdcf.png)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Answer Wrong
+    ![Screenshot (76)](https://user-images.githubusercontent.com/64366119/234969196-e0528dce-4817-48c9-bc7a-2a95ff9b3373.png)
+![Screenshot (79)](https://user-images.githubusercontent.com/64366119/234969212-e40b51bd-b625-4e91-a0f7-aea2176611cf.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Answer Right
+![Screenshot (77)](https://user-images.githubusercontent.com/64366119/234969203-bec39f06-e6f7-4c08-b294-19917d21ce8e.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Finish Exam
+![Screenshot (80)](https://user-images.githubusercontent.com/64366119/234969217-e2068c3a-0776-44a9-acf1-8d8422e5ad2b.png)
+
+
+## Rank of Score
+![Screenshot (81)](https://user-images.githubusercontent.com/64366119/234969219-901133a6-4c88-4dcd-927b-5f42eb504976.png)
+
+
+
+## Contact us
+
+- rovan magdi [@rovanamgdi](rovanmagdi@gmail.com)
+
