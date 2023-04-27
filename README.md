@@ -1,4 +1,4 @@
-## Examination system 
+## Trivia system
 Description for my project which is an Trivia system.
 
 ## Table of Contents
