@@ -21,7 +21,6 @@ const ContainerSound = ({ children, sound }: ContainerInterface) => {
       gap={{ md: 1, xs: 5 }}
       justifyContent="center"
       alignItems="center"
-      sx={{ backgroundColor: "#F2F4F5", padding: "30px", borderRadius: "10px" }}
     >
       <Typography
         align="center"

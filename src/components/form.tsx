@@ -48,7 +48,7 @@ const UserNameForm = () => {
       localStorage.setItem("statusProgress", "Progress");
       nagivate("/exam");
     }
-    console.log("donr");
+ 
     
   };
 

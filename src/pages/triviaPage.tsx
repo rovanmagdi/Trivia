@@ -25,56 +25,55 @@ import { toastWarning, toastError, toastSuccess } from "../errors/helper";
 //import buttons from styled MUI
 import { StyledButtonNext, StyledButtonCheck } from "../styled/Button";
 
-import { memo } from 'react'
+import { memo } from "react";
 
 const TriviaPage = () => {
   // setting  state
   const [name, setName] = useState("");
   const [questions, setQuestions] = useState<questionInterface[]>([]);
   const [score, setScore] = useState(0);
-
   const [counter, setCounter] = useState(0);
   const [percent, setPercent] = useState(0);
   const [answer, setAnswer] = useState("");
-  const [bgColor, setBgColor] = useState(true);
+  const [bgColor, setBgColor] = useState("green");
   const [checkAnswer, setIscheckAnswer] = useState(false);
   const [sound, setSound] = useState(false);
 
   const navigate = useNavigate();
-  const numberOfQuestion:number =
+
+  const numberOfQuestion: number =
     Number(localStorage.getItem("num")) !== null
       ? Number(localStorage.getItem("num"))
       : 1;
-
-  // answers buttons
-
   // fetching Questions from the server
   useEffect(() => {
     axios
       .get(`https://opentdb.com/api.php?amount=${numberOfQuestion}`)
       .then((response) => {
         setQuestions(response.data.results);
+        console.log(response.data.results
+          );
+
       })
 
       .catch((err) => {
         toastError(err);
       });
-  }, []);
+  }, [numberOfQuestion]);
 
-  const handleAnswer = (answer: string) => {
-    setAnswer(answer);
-    setBgColor(true)
-  };
   useEffect(() => {
     const name = localStorage.getItem("userName") || "";
     setName(name);
-    setBgColor(true)
   }, [counter]);
+  const handleAnswer = (answer: string) => {
+    setAnswer(answer);
+    setBgColor(answer);
+    console.log(answer);
+  };
 
   const CheckAnswerHandler = () => {
     if (checkAnswer) {
       toastWarning("You can't answer 2 twice ");
-      return;
     }
 
     if (answer === "" && counter !== numberOfQuestion) {
@@ -84,36 +83,40 @@ const TriviaPage = () => {
     if (answer === questions[counter].correct_answer) {
       setScore((prevQuestion) => (prevQuestion += 1));
       toastSuccess("Answer right ");
-     
       setIscheckAnswer(true);
     }
 
     if (answer !== questions[counter].correct_answer && answer !== "") {
-     
       setIscheckAnswer(true);
       toastError("Answer wrong ");
     }
   };
   const handleNext = () => {
+    
+
+    if (answer === "" && counter !== numberOfQuestion) {
+      toastWarning("You must choose  answer");
+      return;
+    }
+
     if (counter === numberOfQuestion) {
       setSound(true);
     }
-   
+
     if (answer === questions[counter].correct_answer) {
       setScore((prevQuestion) => (prevQuestion += 1));
-      
+
       setIscheckAnswer(true);
     }
 
     if (answer !== questions[counter].correct_answer && answer !== "") {
-      
       setIscheckAnswer(true);
-      
     }
 
     setCounter((counter) => (counter += 1));
     setIscheckAnswer(false);
     handlePercent();
+    setBgColor("green");
     setAnswer("");
   };
 
@@ -155,19 +158,31 @@ const TriviaPage = () => {
           </Typography>
         )}
 
-        <ContainerSound sound={sound}>
-          {questions[counter] ? questions[counter].question : "Done !"}
-        </ContainerSound>
+        <Box
+          sx={{
+            backgroundColor: "#F2F4F5",
+            padding: "30px",
+            borderRadius: "10px",
+          }}
+        >
+          <Typography sx={{ color: "#FF7332" }}>
+            {questions[counter]?.category}
+          </Typography>
+          <ContainerSound sound={sound}>
+            {questions[counter] ? questions[counter].question : "Done !"}
+          </ContainerSound>
+        </Box>
 
         {counter < numberOfQuestion && (
           <Grid container gap={1} justifyContent="center" alignItems="center">
             <Button
               variant="contained"
               sx={{
-
-                backgroundColor:
-                  bgColor ? { backgroundColor: 'green' } : { backgroundColor: '#185f55' }
-                ,
+                backgroundColor: `${
+                  bgColor === questions[counter]?.correct_answer
+                    ? "#5E9283"
+                    : "#FF7332"
+                }`,
 
                 "&:hover": {
                   backgroundColor: "#185f55",
@@ -182,15 +197,15 @@ const TriviaPage = () => {
 
             {/* showing  answers buttons */}
 
-            {questions.map((a: any) =>
-              a.incorrect_answers.map((x: any) => {
+            {
+              questions[counter].incorrect_answers.map((x: any) => {
                 return (
                   <Button
+                    key={x}
                     variant="contained"
                     sx={{
-                      backgroundColor:
-                        bgColor ? { backgroundColor: 'green' } : { backgroundColor: '#185f55' }
-                      ,
+                      backgroundColor: `${bgColor === x ? "#5E9283" : "#FF7332"}`,
+
                       "&:hover": {
                         backgroundColor: "#185f55",
                       },
@@ -203,7 +218,8 @@ const TriviaPage = () => {
                   </Button>
                 );
               })
-            )}
+            }
+            
           </Grid>
         )}
 
