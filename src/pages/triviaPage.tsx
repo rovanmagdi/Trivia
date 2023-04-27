@@ -198,7 +198,7 @@ const TriviaPage = () => {
             {/* showing  answers buttons */}
 
             {
-              questions[counter].incorrect_answers.map((x: any) => {
+              questions[counter]?.incorrect_answers.map((x: any) => {
                 return (
                   <Button
                     key={x}
